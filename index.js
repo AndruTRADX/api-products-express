@@ -16,6 +16,20 @@ app.get('/api/v1', (req, res) => {
   res.send('Hola desde la API en express');
 });
 
+const whilelist = ['http://localhost:8080', 'https://mi-app.com']
+
+const options = {
+	origin: (origin, callback) => {
+		if(whilelist.includes(origin) || !origin) {
+			callback(null, true)
+		} else {
+			callback(new Error('no permitido'))
+		}
+	}
+}
+
+app.use(cors(options));
+
 routerApi(app);
 
 app.use(cors());
