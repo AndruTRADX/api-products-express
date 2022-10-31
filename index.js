@@ -1,23 +1,15 @@
 const express = require('express');
+const cors = require('cors');
 const routerApi = require('./routes');
+
 const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/errorHandler');
-const cors = require('cors')
 
 const app = express();
 const port = process.env.PORT || 3000;;
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hola mi server en express');
-});
-
-app.get('/api/v1', (req, res) => {
-  res.send('Hola desde la API en express');
-});
-
-const whilelist = ['http://localhost:8080', 'https://mi-app.com']
-
+const whilelist = ['http://localhost:8080', 'https://mi-app.com'];
 const options = {
 	origin: (origin, callback) => {
 		if(whilelist.includes(origin) || !origin) {
@@ -29,6 +21,14 @@ const options = {
 }
 
 app.use(cors(options));
+
+app.get('/', (req, res) => {
+  res.send('Hola mi server en express');
+});
+
+app.get('/api/v1', (req, res) => {
+  res.send('Hola desde la API en express');
+});
 
 routerApi(app);
 
