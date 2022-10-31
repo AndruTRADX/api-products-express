@@ -32,8 +32,6 @@ app.use(cors(options));
 
 routerApi(app);
 
-app.use(cors());
-
 app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);
